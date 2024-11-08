@@ -4,10 +4,15 @@ import cors from "cors";
 import mongoose from "mongoose";
 import UserChats from "./models/userChats.js";
 import Chat from "./models/chat.js";
-import { ClerkExpressRequireAuth} from '@clerk/clerk-sdk-node'
+import { ClerkExpressRequireAuth} from '@clerk/clerk-sdk-node';
+import path from "path";
+import url, { fileURLToPath } from "url";
 
 const port = process.env.PORT || 3000;
 const app = express();
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 app.use(cors({
     origin:process.env.CLIENT_URL,
@@ -153,4 +158,8 @@ app.use((req, res, next) => {
     console.log("Auth status:", req.auth);
     next();
   });
-  
+
+app.use(express.static(path.join(__dirname, "../client")))
+app.get("*",(req,res)=>{
+    res.sendFile(path.join(__dirname, "../client", "index.html"))
+})
