@@ -4,7 +4,9 @@ import cors from "cors";
 import mongoose from "mongoose";
 import UserChats from "./models/userChats.js";
 import Chat from "./models/chat.js";
-import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node'
+import { ClerkExpressRequireAuth, Clerk} from '@clerk/clerk-sdk-node'
+
+Clerk({ secretKey: process.env.CLERK_SECRET_KEY });
 
 const port = process.env.PORT || 3000;
 const app = express();
