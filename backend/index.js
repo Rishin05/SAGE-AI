@@ -6,7 +6,7 @@ import UserChats from "./models/userChats.js";
 import Chat from "./models/chat.js";
 import { ClerkExpressRequireAuth } from '@clerk/clerk-sdk-node'
 
-const port = process.env.PORT || 3001;
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(cors({
@@ -148,3 +148,9 @@ app.use((err, req, res, next) => {
   app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+app.use((req, res, next) => {
+    console.log("Auth status:", req.auth);
+    next();
+  });
+  
