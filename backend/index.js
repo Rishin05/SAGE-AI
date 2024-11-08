@@ -145,7 +145,6 @@ app.use((err, req, res, next) => {
     res.status(401).send('Unauthenticated!')
   });
 
-app.listen(port,()=>[
-    connect(),
-    console.log("Server Running on 3000")
-]);
+  app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+  });
