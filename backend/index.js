@@ -7,6 +7,7 @@ import Chat from "./models/chat.js";
 import { ClerkExpressRequireAuth} from '@clerk/clerk-sdk-node';
 import path from "path";
 import url, { fileURLToPath } from "url";
+const { auth } = require('express-openid-connect');
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -31,6 +32,23 @@ const connect = async ()=>{
     }
 }
 
+
+const config = {
+    authRequired: false,
+    auth0Logout: true,
+    secret: 'a long, randomly-generated string stored in env',
+    baseURL: 'https://sage-ai-frontend.onrender.com',
+    clientID: 'NWKrTHvfWtRExtES8D6nMMAGoKiZXROI',
+    issuerBaseURL: 'https://dev-ajn0irtiujzh38k5.us.auth0.com'
+  };
+
+
+  app.use(auth(config));
+
+  app.get('/', (req, res) => {
+    res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out');
+  });
+  
 const imagekit = new ImageKit({
     urlEndpoint: process.env.IMAGE_KIT_ENDPOINT,
     publicKey: process.env.IMAGE_KIT_PUBLIC_KEY,
